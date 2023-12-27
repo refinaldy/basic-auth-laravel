@@ -11,11 +11,13 @@ class Product extends Model
     protected $table = 'products';
 
     protected $fillable = array(
+        'user_id',
         'name',
         'price',
         'description',
-        'image_path',
         'published_at',
+        'url',
+        'order'
     );
 
     public function images()

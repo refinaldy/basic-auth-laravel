@@ -52,4 +52,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Forum::class, 'forum_user', 'user_id', 'forum_id')->withPivot('role', 'created_at', 'updated_at');
     }
 
+    public function user_links(){
+        return $this->hasMany(Link::class);
+    }
+    
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
+
 }

@@ -14,7 +14,7 @@ class UserProfile extends Model
         'user_id',
         'full_name',
         'profile_picture',
-        'ic_number',
+        'description',
     ];
 
     public function user(){

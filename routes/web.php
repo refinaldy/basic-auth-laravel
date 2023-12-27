@@ -1,7 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\DomCrawler\Crawler;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +32,8 @@ Route::middleware(['isAdmin', 'auth'])->group(function () {
     Route::post('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
+
+Route::get('/get-favicon', [ProfileController::class, 'getFaviconFromUrl']);
+
+Route::get('/{username}', [ProfileController::class, 'show']);
+Route::get('/{username}/products/{productId}', [ProfileController::class, 'showProduct'])->name('profile.showProduct');

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('full_name')->nullable();
-            $table->string('ic_number')->nullable();
             $table->string('profile_picture')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

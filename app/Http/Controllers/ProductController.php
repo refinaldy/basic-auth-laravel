@@ -10,9 +10,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        protected ProductService $productService,
+    ){
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -36,33 +42,10 @@ class ProductController extends Controller
             $payload = $request->all();
             
             DB::beginTransaction();
-
-            $product = Product::create([
-                'name' => $payload['name'],
-                'price' => $payload['price'],
-                'description' => $payload['description'],
-                'published_at' => Carbon::now(),
-            ]);
-
-            $images = array();
-            foreach($payload['images'] as $image){
-                $path = $image->store('products', 'public');
-                $images[] = [
-                    'product_id' => $product->id,
-                    'path' => $path,
-                ];
-            }
-
-            // queue send email
-
-            // queue image processing -> upload aws 
-
-            // 
-
-            ProductImage::insert($images);
+            $product = $this->productService->addProduct($payload);
             
             DB::commit();
-        } catch (\Throwable $th) {
+    } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->withErrors($th->getMessage());
         }
